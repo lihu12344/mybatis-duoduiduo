@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.pojo.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+  </resultMap>
+
+  <resultMap id="userMap" type="userMap">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="age" property="age"/>
+    <association property="roleList" column="id" select="com.example.demo.dao.RoleMapper.getRoleByUserId"/>
+  </resultMap>
+
+  <select id="getUserByRoleId" resultMap="BaseResultMap">
+    select * from user u,user_role_relation ur where u.id=ur.user_id and ur.role_id = #{id};
+  </select>
+
+  <select id="getAllUserMap" resultMap="userMap">
+    select * from user;
+  </select>
+</mapper>
